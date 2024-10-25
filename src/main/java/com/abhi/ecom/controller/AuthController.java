@@ -5,13 +5,17 @@ import com.abhi.ecom.constants.Constants;
 import com.abhi.ecom.exceptions.UserException;
 import com.abhi.ecom.models.User;
 import com.abhi.ecom.repository.UserRepository;
+import com.abhi.ecom.request.LoginRequest;
 import com.abhi.ecom.response.AuthResponse;
+import com.abhi.ecom.service.implementations.CustomUserServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +30,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserServiceImplementation serviceImplementation;
 
     @PostMapping("/signUp")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user)throws UserException{
@@ -52,8 +57,38 @@ public class AuthController {
 
         String token = jwtProvider.generateToken(authentication);
 
-        AuthResponse authResponse = new AuthResponse(token, Constants.SINGUP_SUCCESSFULL);
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setToken(token);
+        authResponse.setMessage(Constants.SINGUP_SUCCESSFULL);
 
         return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/signIn")
+    public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest request){
+        String userName = request.getUserName();
+        String passWord = request.getPassWord();
+
+        Authentication authentication = authenticate(userName, passWord);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setToken(token);
+        authResponse.setMessage(Constants.SINGIN_SUCCESSFULL);
+
+        return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.OK);
+    }
+
+    private Authentication authenticate(String userName, String passWord) {
+        UserDetails userDetails = serviceImplementation.loadUserByUsername(userName);
+        if(userDetails == null){
+            throw new BadCredentialsException("Invalid Username...");
+        }
+        if(!passwordEncoder.matches(passWord, userDetails.getPassword())){
+            throw new BadCredentialsException("Invalid Password...");
+        }
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }
