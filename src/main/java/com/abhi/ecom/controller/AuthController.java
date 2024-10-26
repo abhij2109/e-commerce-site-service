@@ -59,12 +59,12 @@ public class AuthController {
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setToken(token);
-        authResponse.setMessage(Constants.SINGUP_SUCCESSFULL);
+        authResponse.setMessage(Constants.SINGUP_SUCCESSFUL);
 
         return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.CREATED);
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/logIn")
     public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest request){
         String userName = request.getUserName();
         String passWord = request.getPassWord();
@@ -76,7 +76,7 @@ public class AuthController {
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setToken(token);
-        authResponse.setMessage(Constants.SINGIN_SUCCESSFULL);
+        authResponse.setMessage(Constants.LOGIN_SUCCESSFUL);
 
         return new ResponseEntity<AuthResponse>(authResponse, HttpStatus.OK);
     }
