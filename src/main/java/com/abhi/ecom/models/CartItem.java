@@ -22,8 +22,9 @@ public class CartItem {
 
     @ManyToOne
     private Product product;
-
+    private double discountedPrice;
     private String size;
     private int quantity;
     private Integer price;
+    private Long userId;
 }
