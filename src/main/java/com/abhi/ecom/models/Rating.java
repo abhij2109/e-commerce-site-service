@@ -1,6 +1,7 @@
 package com.abhi.ecom.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 public class Rating {
 
