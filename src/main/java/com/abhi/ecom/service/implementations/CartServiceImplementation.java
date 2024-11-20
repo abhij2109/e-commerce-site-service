@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CartServiceImplementation implements CartService {
 
-    private CartRepository cartRepository;
-    private CartItemService cartItemService;
-    private ProductService productService;
+    private final CartRepository cartRepository;
+    private final CartItemService cartItemService;
+    private final ProductService productService;
 
     @Override
     public Cart createCart(User user) {

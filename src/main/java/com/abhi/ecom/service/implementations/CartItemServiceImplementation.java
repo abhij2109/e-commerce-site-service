@@ -7,7 +7,6 @@ import com.abhi.ecom.models.CartItem;
 import com.abhi.ecom.models.Product;
 import com.abhi.ecom.models.User;
 import com.abhi.ecom.repository.CartItemRepository;
-import com.abhi.ecom.repository.CartRepository;
 import com.abhi.ecom.service.CartItemService;
 import com.abhi.ecom.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CartItemServiceImplementation implements CartItemService {
 
-    private CartItemRepository cartItemRepository;
-    private CartRepository cartRepository;
-    private UserService userService;
+    private final CartItemRepository cartItemRepository;
+    private final UserService userService;
 
     @Override
     public CartItem createCartItem(CartItem cartItem) {
