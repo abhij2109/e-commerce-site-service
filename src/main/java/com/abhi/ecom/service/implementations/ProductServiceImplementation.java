@@ -1,5 +1,6 @@
 package com.abhi.ecom.service.implementations;
 
+import com.abhi.ecom.constants.Constants;
 import com.abhi.ecom.exceptions.ProductException;
 import com.abhi.ecom.models.Category;
 import com.abhi.ecom.models.Product;
@@ -79,7 +80,8 @@ public class ProductServiceImplementation implements ProductService {
         Product product = findProductById(productId);
         product.getSizes().clear();
         productRepository.delete(product);
-        return "Product Deleted Successfully";
+
+        return Constants.PRODUCT_DELETED_SUCCESS;
     }
 
     @Override
@@ -96,7 +98,7 @@ public class ProductServiceImplementation implements ProductService {
         if(productRepository.findById(productId).isPresent()){
             return productRepository.findById(productId).get();
         }
-        throw new ProductException("Product not found with ID: "+productId);
+        throw new ProductException(Constants.PRODUCT_NOT_FOUND + productId);
     }
 
     @Override
@@ -116,9 +118,9 @@ public class ProductServiceImplementation implements ProductService {
             products = products.stream().filter(product -> colors.stream().anyMatch(colour -> colour.equalsIgnoreCase(product.getColour()))).toList();
         }
         if(stock!=null){
-            if(stock.equals("In_stock")){
+            if(stock.equals(Constants.IN_STOCK)){
                 products = products.stream().filter(product->product.getQuantity()>0).collect(Collectors.toList());
-            }else if(stock.equals("Out_of_stock")){
+            }else if(stock.equals(Constants.OUT_OF_STOCK)){
                 products = products.stream().filter(product -> product.getQuantity()<1).collect(Collectors.toList());
             }
         }
