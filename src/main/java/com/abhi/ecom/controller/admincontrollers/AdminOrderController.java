@@ -1,4 +1,4 @@
-package com.abhi.ecom.controller;
+package com.abhi.ecom.controller.admincontrollers;
 
 import com.abhi.ecom.constants.Constants;
 import com.abhi.ecom.exceptions.OrderException;
