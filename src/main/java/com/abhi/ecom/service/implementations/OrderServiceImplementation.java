@@ -11,6 +11,8 @@ import java.util.List;
 
 @Service
 public class OrderServiceImplementation implements OrderService {
+
+
     @Override
     public Order createOrder(User user, Address shippingAddress) {
         return null;
@@ -48,6 +50,11 @@ public class OrderServiceImplementation implements OrderService {
 
     @Override
     public Order canceledOrder(Long orderId) throws OrderException {
+        return null;
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
         return null;
     }
 }
