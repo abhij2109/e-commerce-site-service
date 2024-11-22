@@ -10,5 +10,7 @@ public class Constants {
     public static final String ITEM_ADDED_IN_CART = "Item Added to Cart.";
     public static final String IN_STOCK = "In_stock";
     public static final String OUT_OF_STOCK = "Out_of_stock";
+    public static final String ORDER_DELETED = "Order Deleted Successfully";
 
+    public static final String TRUE = "true";
 }
