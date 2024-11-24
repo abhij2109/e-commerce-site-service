@@ -3,10 +3,12 @@ package com.abhi.ecom.controller;
 import com.abhi.ecom.config.JwtProvider;
 import com.abhi.ecom.constants.Constants;
 import com.abhi.ecom.exceptions.UserException;
+import com.abhi.ecom.models.Cart;
 import com.abhi.ecom.models.User;
 import com.abhi.ecom.repository.UserRepository;
 import com.abhi.ecom.request.LoginRequest;
 import com.abhi.ecom.response.AuthResponse;
+import com.abhi.ecom.service.CartService;
 import com.abhi.ecom.service.implementations.CustomUserServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,7 @@ public class AuthController {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     private final CustomUserServiceImplementation serviceImplementation;
+    private final CartService cartService;
 
     @PostMapping("/signUp")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user)throws UserException{
@@ -51,6 +54,7 @@ public class AuthController {
         userToBeCreated.setLastName(lastNameString);
 
         User savedUser = userRepository.save(userToBeCreated);
+        Cart cart = cartService.createCart(savedUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(), savedUser.getPassWord());
         SecurityContextHolder.getContext().setAuthentication(authentication);
