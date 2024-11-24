@@ -6,7 +6,6 @@ import com.abhi.ecom.models.Category;
 import com.abhi.ecom.models.Product;
 import com.abhi.ecom.repository.CategoryRepository;
 import com.abhi.ecom.repository.ProductRepository;
-import com.abhi.ecom.repository.UserRepository;
 import com.abhi.ecom.request.CreateProductRequest;
 import com.abhi.ecom.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +41,7 @@ public class ProductServiceImplementation implements ProductService {
         Category secondLevel= categoryRepository.findByNameAndParent(request.getSecondLevelCategory(), topLevel.getName());
         if(secondLevel == null){
             Category secondLevelCategory = new Category();
+            secondLevelCategory.setName(request.getSecondLevelCategory());
             secondLevelCategory.setParentCategory(topLevel);
             secondLevelCategory.setLevel(2);
 
@@ -51,6 +51,7 @@ public class ProductServiceImplementation implements ProductService {
         Category thirdLevel= categoryRepository.findByNameAndParent(request.getThirdLevelCategory(), secondLevel.getName());
         if(thirdLevel == null){
             Category thirdLevelCategory = new Category();
+            thirdLevelCategory.setName(request.getThirdLevelCategory());
             thirdLevelCategory.setParentCategory(secondLevel);
             thirdLevelCategory.setLevel(3);
 
@@ -132,5 +133,10 @@ public class ProductServiceImplementation implements ProductService {
 
         Page<Product> filteredProducts = new PageImpl<>(pageContent, page, products.size());
         return filteredProducts;
+    }
+
+    @Override
+    public List<Product> findAllProducts() {
+        return null;
     }
 }
