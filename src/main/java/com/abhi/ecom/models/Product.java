@@ -42,7 +42,7 @@ public class Product {
     private List<Rating> ratings = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Rating> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
     private int numRatings;
 
