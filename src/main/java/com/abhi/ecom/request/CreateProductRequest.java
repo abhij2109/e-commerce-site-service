@@ -1,8 +1,6 @@
 package com.abhi.ecom.request;
 
 import com.abhi.ecom.models.Size;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embedded;
 import lombok.Builder;
 import lombok.Data;
 
